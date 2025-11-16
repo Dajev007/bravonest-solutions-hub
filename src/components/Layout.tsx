@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Code2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
@@ -96,34 +96,39 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <main className="flex-1">{children}</main>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-muted/30">
+      <footer className="gradient-footer border-t border-border">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
-              <div className="flex items-center gap-2 font-bold text-lg">
-                <Code2 className="h-5 w-5 text-primary" />
-                <span>Bravonest</span>
+              <div className="flex items-center gap-3 font-bold text-lg">
+                <img
+                  src="/bravonest.png"
+                  alt="Bravonest"
+                  className="h-10 w-auto rounded-full object-contain"
+                  style={{ padding: '2px' }}
+                />
+                <span className="text-white">Bravonest</span>
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/80">
                 Engineering excellence meets practical education. Building software, PCB designs, and future engineers.
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4">Services</h3>
+              <h3 className="font-semibold mb-4 text-white">Services</h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link to="/solutions" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link to="/solutions" className="text-white/80 hover:text-white transition-colors">
                     Software Solutions
                   </Link>
                 </li>
                 <li>
-                  <Link to="/solutions" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link to="/solutions" className="text-white/80 hover:text-white transition-colors">
                     PCB Design
                   </Link>
                 </li>
                 <li>
-                  <Link to="/learn" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link to="/learn" className="text-white/80 hover:text-white transition-colors">
                     Courses
                   </Link>
                 </li>
@@ -131,15 +136,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4">Company</h3>
+              <h3 className="font-semibold mb-4 text-white">Company</h3>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link to="/about" className="text-white/80 hover:text-white transition-colors">
                     About Us
                   </Link>
                 </li>
                 <li>
-                  <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link to="/contact" className="text-white/80 hover:text-white transition-colors">
                     Contact
                   </Link>
                 </li>
@@ -147,8 +152,8 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <h3 className="font-semibold mb-4 text-white">Contact</h3>
+              <ul className="space-y-2 text-sm text-white/80">
                 <li>hello@bravonest.com</li>
                 <li>+1 (555) 123-4567</li>
                 <li>San Francisco, CA</li>
@@ -156,7 +161,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
+          <div className="mt-8 pt-8 border-t border-white/20 text-center text-sm text-white/80">
             © {new Date().getFullYear()} Bravonest. All rights reserved.
           </div>
         </div>

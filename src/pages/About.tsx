@@ -48,7 +48,6 @@ const About = () => {
           <div className="max-w-3xl mx-auto space-y-6">
             <SectionHeader
               title="Our Story"
-              subtitle="Born from a passion for building and teaching"
               centered
             />
             <div className="text-lg text-muted-foreground space-y-4 mt-8">
@@ -70,7 +69,7 @@ const About = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Card className="border-border/50">
+            <Card className="border-border/50 glow-on-hover">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                   <Target className="h-6 w-6 text-primary" />
@@ -84,7 +83,7 @@ const About = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-border/50">
+            <Card className="border-border/50 glow-on-hover">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-4">
                   <Eye className="h-6 w-6 text-secondary" />
@@ -106,18 +105,18 @@ const About = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Our Approach"
-            subtitle="How we work with clients and students"
+            
             centered
           />
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 max-w-5xl mx-auto">
             {[
               { icon: Ear, title: "Listen", desc: "We start by understanding your goals, constraints, and vision" },
               { icon: Lightbulb, title: "Design", desc: "We create solutions that are practical, scalable, and elegant" },
               { icon: Wrench, title: "Build & Validate", desc: "Iterative development with testing at every stage" },
               { icon: GraduationCap, title: "Teach & Support", desc: "We document, train, and ensure you can maintain what we build" },
             ].map((step, idx) => (
-              <Card key={idx} className="hover-lift border-border/50 text-center">
+              <Card key={idx} className="hover-lift border-border/50 text-center glow-on-hover">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-4">
                     <step.icon className="h-6 w-6 text-accent" />
@@ -138,18 +137,18 @@ const About = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Our Values"
-            subtitle="The principles that guide our work"
+            
             centered
           />
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 max-w-5xl mx-auto">
             {[
               { icon: Shield, title: "Clarity", desc: "Clear communication, honest timelines, no hidden complexity" },
               { icon: Target, title: "Reliability", desc: "We deliver what we promise, when we promise it" },
               { icon: GraduationCap, title: "Learning", desc: "Every project is an opportunity to grow—for us and our clients" },
               { icon: Heart, title: "Integrity", desc: "We do the right thing, even when no one is watching" },
             ].map((value, idx) => (
-              <Card key={idx} className="border-border/50 text-center">
+              <Card key={idx} className="border-border/50 text-center glow-on-hover">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <value.icon className="h-6 w-6 text-primary" />
@@ -176,14 +175,18 @@ const About = () => {
           
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-12 max-w-5xl mx-auto">
             {team.map((member, idx) => (
-              <Card key={idx} className="hover-lift border-border/50 relative overflow-visible">
-                {/* Image positioned overlapping the top-left edge of the card */}
-                <div className="absolute -top-6 -left-6">
-                  <img src="/dajev.jpg" alt={`${member.name} photo`} className="w-20 h-20 rounded-full object-cover ring-2 ring-white/20 shadow-md" />
+              <Card key={idx} className="hover-lift border-border/50 relative overflow-visible glow-on-hover p-6 max-w-sm mx-auto">
+                {/* Image positioned overlapping the top-left edge of the card (larger) */}
+                <div className="absolute -top-8 -left-8 z-10">
+                  <img
+                    src="/dajev.jpg"
+                    alt={`${member.name} photo`}
+                    className="w-28 h-28 rounded-full object-cover border-4 border-black/10 shadow-xl transition-shadow hover:shadow-2xl"
+                  />
                 </div>
 
                 <CardContent>
-                  <div className="flex flex-col items-center justify-center text-center min-h-[120px]">
+                  <div className="flex flex-col items-center justify-center text-center min-h-[96px]">
                     <CardTitle className="text-lg">{member.name}</CardTitle>
                     <CardDescription className="font-semibold text-primary">{member.role}</CardDescription>
                   </div>
