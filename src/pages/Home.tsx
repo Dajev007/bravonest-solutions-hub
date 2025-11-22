@@ -3,6 +3,121 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { FeatureCard } from "@/components/FeatureCard";
 import { Code2, Cpu, GraduationCap, Lightbulb, Users, Zap, Target, Shield } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+
+const HeroContent = () => {
+  const headingRef = useScrollAnimation({ threshold: 0.1 });
+  const textRef = useScrollAnimation({ threshold: 0.1 });
+  const buttonsRef = useScrollAnimation({ threshold: 0.1 });
+
+  return (
+    <div className="max-w-4xl mx-auto text-center space-y-8">
+      <h1 
+        ref={headingRef.ref}
+        className={`text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white scroll-fade-in-up ${headingRef.isVisible ? "visible" : ""}`}
+      >
+        Where Ideas Become{" "}
+        <span className="text-gradient text-gradient-animate">Intelligent Solutions</span>
+      </h1>
+      <p 
+        ref={textRef.ref}
+        className={`text-xl md:text-2xl text-white/90 max-w-3xl mx-auto scroll-fade-in-up ${textRef.isVisible ? "visible" : ""}`}
+        style={{ transitionDelay: "200ms" }}
+      >
+        Expert software development, PCB design, and pre-engineering courses that bridge innovation with education.
+      </p>
+      <div 
+        ref={buttonsRef.ref}
+        className={`flex flex-col sm:flex-row gap-4 justify-center pt-4 magnetic-btn scroll-fade-in-up ${buttonsRef.isVisible ? "visible" : ""}`}
+        style={{ transitionDelay: "400ms" }}
+      >
+        <CTAButton variant="project" to="/contact#project-call">
+          Book a Project Call
+        </CTAButton>
+        <CTAButton variant="course" to="/learn#register">
+          Register for a Course
+        </CTAButton>
+      </div>
+    </div>
+  );
+};
+
+const LearningHighlightContent = () => {
+  const iconRef = useScrollAnimation({ threshold: 0.2 });
+  const headingRef = useScrollAnimation({ threshold: 0.2 });
+  const textRef = useScrollAnimation({ threshold: 0.2 });
+  const buttonRef = useScrollAnimation({ threshold: 0.2 });
+
+  return (
+    <>
+      <div 
+        ref={iconRef.ref}
+        className={`w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto scroll-scale-in ${iconRef.isVisible ? "visible" : ""}`}
+      >
+        <GraduationCap className="h-8 w-8 text-accent" />
+      </div>
+      <h2 
+        ref={headingRef.ref}
+        className={`text-3xl md:text-4xl font-bold scroll-fade-in-up ${headingRef.isVisible ? "visible" : ""}`}
+        style={{ transitionDelay: "100ms" }}
+      >
+        Build Your Engineering Foundation
+      </h2>
+      <p 
+        ref={textRef.ref}
+        className={`text-lg text-muted-foreground scroll-fade-in-up ${textRef.isVisible ? "visible" : ""}`}
+        style={{ transitionDelay: "200ms" }}
+      >
+        Our pre-engineering courses combine theory with practical projects. Learn electronics, programming, and PCB design from industry professionals.
+      </p>
+      <div 
+        ref={buttonRef.ref}
+        className={`scroll-fade-in-up ${buttonRef.isVisible ? "visible" : ""}`}
+        style={{ transitionDelay: "300ms" }}
+      >
+        <CTAButton variant="course" to="/learn#register" className="mt-6">
+          Register for a Course
+        </CTAButton>
+      </div>
+    </>
+  );
+};
+
+const FinalCTAContent = () => {
+  const headingRef = useScrollAnimation({ threshold: 0.2 });
+  const textRef = useScrollAnimation({ threshold: 0.2 });
+  const buttonsRef = useScrollAnimation({ threshold: 0.2 });
+
+  return (
+    <div className="max-w-3xl mx-auto text-center space-y-6">
+      <h2 
+        ref={headingRef.ref}
+        className={`text-3xl md:text-4xl font-bold scroll-fade-in-up ${headingRef.isVisible ? "visible" : ""}`}
+      >
+        Have an Idea or Want to Learn?
+      </h2>
+      <p 
+        ref={textRef.ref}
+        className={`text-lg text-muted-foreground scroll-fade-in-up ${textRef.isVisible ? "visible" : ""}`}
+        style={{ transitionDelay: "100ms" }}
+      >
+        Whether you need a technical solution built or want to develop your engineering skills, we're here to help.
+      </p>
+      <div 
+        ref={buttonsRef.ref}
+        className={`flex flex-col sm:flex-row gap-4 justify-center pt-4 scroll-fade-in-up ${buttonsRef.isVisible ? "visible" : ""}`}
+        style={{ transitionDelay: "200ms" }}
+      >
+        <CTAButton variant="project" to="/contact#project-call">
+          Book a Project Call
+        </CTAButton>
+        <CTAButton variant="course" to="/learn#register">
+          Register for a Course
+        </CTAButton>
+      </div>
+    </div>
+  );
+};
 
 const Home = () => {
   return (
@@ -28,23 +143,7 @@ const Home = () => {
         <div className="absolute inset-0 bg-black/40 z-[6]"></div>
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8 fade-in">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white">
-              Where Ideas Become{" "}
-              <span className="text-gradient text-gradient-animate">Intelligent Solutions</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-              Expert software development, PCB design, and pre-engineering courses that bridge innovation with education.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 magnetic-btn">
-              <CTAButton variant="project" to="/contact#project-call">
-                Book a Project Call
-              </CTAButton>
-              <CTAButton variant="course" to="/learn#register">
-                Register for a Course
-              </CTAButton>
-            </div>
-          </div>
+          <HeroContent />
         </div>
       </section>
 
@@ -110,16 +209,7 @@ const Home = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6">
-            <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto">
-              <GraduationCap className="h-8 w-8 text-accent" />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold">Build Your Engineering Foundation</h2>
-            <p className="text-lg text-muted-foreground">
-              Our pre-engineering courses combine theory with practical projects. Learn electronics, programming, and PCB design from industry professionals.
-            </p>
-            <CTAButton variant="course" to="/learn#register" className="mt-6">
-              Register for a Course
-            </CTAButton>
+            <LearningHighlightContent />
           </div>
         </div>
       </section>
@@ -160,20 +250,7 @@ const Home = () => {
       {/* Final CTA */}
       <section className="py-20 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">Have an Idea or Want to Learn?</h2>
-            <p className="text-lg text-muted-foreground">
-              Whether you need a technical solution built or want to develop your engineering skills, we're here to help.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <CTAButton variant="project" to="/contact#project-call">
-                Book a Project Call
-              </CTAButton>
-              <CTAButton variant="course" to="/learn#register">
-                Register for a Course
-              </CTAButton>
-            </div>
-          </div>
+          <FinalCTAContent />
         </div>
       </section>
     </div>
