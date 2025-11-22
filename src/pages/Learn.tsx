@@ -113,7 +113,6 @@ const Learn = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Course Catalogue"
-            subtitle="Choose from our range of practical engineering courses"
             centered
           />
           
@@ -151,7 +150,6 @@ const Learn = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Learning Experience"
-            subtitle="What makes our courses different"
             centered
           />
           

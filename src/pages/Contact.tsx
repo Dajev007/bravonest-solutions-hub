@@ -286,7 +286,6 @@ const Contact = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Contact Information"
-            subtitle="Other ways to reach us"
             centered
           />
           
