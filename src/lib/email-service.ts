@@ -1,22 +1,6 @@
-import emailjs from '@emailjs/browser';
-
-// EmailJS configuration
-// To set up EmailJS:
-// 1. Create an account at https://www.emailjs.com/
-// 2. Create an email service (Gmail, Outlook, etc.)
-// 3. Create email templates
-// 4. Get your Public Key, Service ID, and Template IDs
-// 5. Add them to your .env file or replace the values below
-
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'your_service_id';
-const EMAILJS_TEMPLATE_ID_PROJECT = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_PROJECT || 'your_template_id_project';
-const EMAILJS_TEMPLATE_ID_COURSE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_COURSE || 'your_template_id_course';
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'your_public_key';
-
-// Initialize EmailJS
-if (EMAILJS_PUBLIC_KEY && EMAILJS_PUBLIC_KEY !== 'your_public_key') {
-  emailjs.init(EMAILJS_PUBLIC_KEY);
-}
+// Email service using FormSubmit - works immediately without any setup
+// FormSubmit is a free service that sends emails directly to the specified address
+const RECIPIENT_EMAIL = 'support@bravonest.lk';
 
 interface ProjectFormData {
   name: string;
@@ -35,83 +19,107 @@ interface CourseFormData {
 
 export const sendProjectEmail = async (data: ProjectFormData): Promise<boolean> => {
   try {
-    // Check if EmailJS is configured
-    if (EMAILJS_PUBLIC_KEY === 'your_public_key' || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID_PROJECT) {
-      // Fallback to mailto if EmailJS is not configured
-      return sendViaMailto('project', {
-        subject: `Project Call Request - ${data.projectType}`,
-        body: `Name: ${data.name}\nEmail: ${data.email}\nProject Type: ${data.projectType}\nPreferred Time Window: ${data.timeWindow || 'Not specified'}\n\nDescription:\n${data.description}`,
-      });
+    const emailBody = `
+New Project Call Request
+
+Name: ${data.name}
+Email: ${data.email}
+Project Type: ${data.projectType}
+Preferred Time Window: ${data.timeWindow || 'Not specified'}
+
+Description:
+${data.description}
+
+---
+This email was sent from the Bravonest website contact form.
+Reply directly to this email to respond to ${data.name} at ${data.email}
+    `.trim();
+
+    const formData = new FormData();
+    formData.append('email', RECIPIENT_EMAIL);
+    formData.append('name', data.name);
+    formData.append('subject', `Project Call Request - ${data.projectType}`);
+    formData.append('message', emailBody);
+    formData.append('_replyto', data.email);
+    formData.append('_captcha', 'false');
+    formData.append('_template', 'table');
+    formData.append('_format', 'plain');
+
+    const response = await fetch('https://formsubmit.co/ajax/support@bravonest.lk', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to send email');
     }
 
-    const templateParams = {
-      to_email: 'support@bravonest.lk',
-      from_name: data.name,
-      from_email: data.email,
-      project_type: data.projectType,
-      description: data.description,
-      time_window: data.timeWindow || 'Not specified',
-      reply_to: data.email,
-    };
-
-    await emailjs.send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID_PROJECT,
-      templateParams
-    );
-
-    return true;
+    const result = await response.json();
+    
+    if (result.success) {
+      return true;
+    } else {
+      throw new Error(result.message || 'Failed to send email');
+    }
   } catch (error) {
     console.error('Error sending project email:', error);
-    // Fallback to mailto on error
-    return sendViaMailto('project', {
-      subject: `Project Call Request - ${data.projectType}`,
-      body: `Name: ${data.name}\nEmail: ${data.email}\nProject Type: ${data.projectType}\nPreferred Time Window: ${data.timeWindow || 'Not specified'}\n\nDescription:\n${data.description}`,
-    });
+    throw error; // Re-throw to let the UI handle the error
   }
 };
 
 export const sendCourseEmail = async (data: CourseFormData): Promise<boolean> => {
   try {
-    // Check if EmailJS is configured
-    if (EMAILJS_PUBLIC_KEY === 'your_public_key' || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID_COURSE) {
-      // Fallback to mailto if EmailJS is not configured
-      return sendViaMailto('course', {
-        subject: `Course Enquiry - ${data.course}`,
-        body: `Name: ${data.name}\nEmail: ${data.email}\nCourse of Interest: ${data.course}\n\nMessage:\n${data.message || 'No additional message provided'}`,
-      });
+    const emailBody = `
+New Course Enquiry
+
+Name: ${data.name}
+Email: ${data.email}
+Course of Interest: ${data.course}
+
+Message:
+${data.message || 'No additional message provided'}
+
+---
+This email was sent from the Bravonest website contact form.
+Reply directly to this email to respond to ${data.name} at ${data.email}
+    `.trim();
+
+    const formData = new FormData();
+    formData.append('email', RECIPIENT_EMAIL);
+    formData.append('name', data.name);
+    formData.append('subject', `Course Enquiry - ${data.course}`);
+    formData.append('message', emailBody);
+    formData.append('_replyto', data.email);
+    formData.append('_captcha', 'false');
+    formData.append('_template', 'table');
+    formData.append('_format', 'plain');
+
+    const response = await fetch('https://formsubmit.co/ajax/support@bravonest.lk', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to send email');
     }
 
-    const templateParams = {
-      to_email: 'support@bravonest.lk',
-      from_name: data.name,
-      from_email: data.email,
-      course: data.course,
-      message: data.message || 'No additional message provided',
-      reply_to: data.email,
-    };
-
-    await emailjs.send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID_COURSE,
-      templateParams
-    );
-
-    return true;
+    const result = await response.json();
+    
+    if (result.success) {
+      return true;
+    } else {
+      throw new Error(result.message || 'Failed to send email');
+    }
   } catch (error) {
     console.error('Error sending course email:', error);
-    // Fallback to mailto on error
-    return sendViaMailto('course', {
-      subject: `Course Enquiry - ${data.course}`,
-      body: `Name: ${data.name}\nEmail: ${data.email}\nCourse of Interest: ${data.course}\n\nMessage:\n${data.message || 'No additional message provided'}`,
-    });
+    throw error; // Re-throw to let the UI handle the error
   }
 };
 
-// Fallback mailto function
-const sendViaMailto = (type: 'project' | 'course', { subject, body }: { subject: string; body: string }): boolean => {
-  const mailtoLink = `mailto:support@bravonest.lk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailtoLink;
-  return true;
-};
 
