@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { BookOpen, Target, Users, FileText, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { sendCourseEmail } from "@/lib/email-service";
 
 const Learn = () => {
   const { toast } = useToast();
@@ -20,6 +21,8 @@ const Learn = () => {
     course: "",
     message: "",
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const courses = [
     {
@@ -48,7 +51,7 @@ const Learn = () => {
     },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.course) {
@@ -60,25 +63,31 @@ const Learn = () => {
       return;
     }
 
-    // Create email content
-    const subject = encodeURIComponent(`Course Registration - ${formData.course}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-      `Email: ${formData.email}\n` +
-      `Course of Interest: ${formData.course}\n\n` +
-      `Message:\n${formData.message || 'No additional message provided'}`
-    );
-    const mailtoLink = `mailto:support@bravonest.lk?subject=${subject}&body=${body}`;
-    
-    // Open email client
-    window.location.href = mailtoLink;
+    setIsSubmitting(true);
 
-    toast({
-      title: "Registration Received!",
-      description: "We'll contact you with the next available batch details.",
-    });
+    try {
+      await sendCourseEmail({
+        name: formData.name,
+        email: formData.email,
+        course: formData.course,
+        message: formData.message,
+      });
 
-    setFormData({ name: "", email: "", course: "", message: "" });
+      toast({
+        title: "Registration Received!",
+        description: "We'll contact you with the next available batch details.",
+      });
+
+      setFormData({ name: "", email: "", course: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error sending your registration. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -289,8 +298,12 @@ const Learn = () => {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                    Submit Registration
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Submit Registration"}
                   </Button>
                 </form>
               </CardContent>

@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { sendProjectEmail, sendCourseEmail } from "@/lib/email-service";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -27,7 +28,10 @@ const Contact = () => {
     message: "",
   });
 
-  const handleProjectSubmit = (e: React.FormEvent) => {
+  const [isSubmittingProject, setIsSubmittingProject] = useState(false);
+  const [isSubmittingCourse, setIsSubmittingCourse] = useState(false);
+
+  const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!projectForm.name || !projectForm.email || !projectForm.projectType || !projectForm.description) {
@@ -39,29 +43,35 @@ const Contact = () => {
       return;
     }
 
-    // Create email content
-    const subject = encodeURIComponent(`Project Call Request - ${projectForm.projectType}`);
-    const body = encodeURIComponent(
-      `Name: ${projectForm.name}\n` +
-      `Email: ${projectForm.email}\n` +
-      `Project Type: ${projectForm.projectType}\n` +
-      `Preferred Time Window: ${projectForm.timeWindow || 'Not specified'}\n\n` +
-      `Description:\n${projectForm.description}`
-    );
-    const mailtoLink = `mailto:support@bravonest.lk?subject=${subject}&body=${body}`;
-    
-    // Open email client
-    window.location.href = mailtoLink;
+    setIsSubmittingProject(true);
 
-    toast({
-      title: "Call Request Received!",
-      description: "We'll reach out within 24 hours to schedule your project call.",
-    });
+    try {
+      await sendProjectEmail({
+        name: projectForm.name,
+        email: projectForm.email,
+        projectType: projectForm.projectType,
+        description: projectForm.description,
+        timeWindow: projectForm.timeWindow,
+      });
 
-    setProjectForm({ name: "", email: "", projectType: "", description: "", timeWindow: "" });
+      toast({
+        title: "Call Request Received!",
+        description: "We'll reach out within 24 hours to schedule your project call.",
+      });
+
+      setProjectForm({ name: "", email: "", projectType: "", description: "", timeWindow: "" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error sending your request. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingProject(false);
+    }
   };
 
-  const handleCourseSubmit = (e: React.FormEvent) => {
+  const handleCourseSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!courseForm.name || !courseForm.email || !courseForm.course) {
@@ -73,25 +83,31 @@ const Contact = () => {
       return;
     }
 
-    // Create email content
-    const subject = encodeURIComponent(`Course Enquiry - ${courseForm.course}`);
-    const body = encodeURIComponent(
-      `Name: ${courseForm.name}\n` +
-      `Email: ${courseForm.email}\n` +
-      `Course of Interest: ${courseForm.course}\n\n` +
-      `Message:\n${courseForm.message || 'No additional message provided'}`
-    );
-    const mailtoLink = `mailto:support@bravonest.lk?subject=${subject}&body=${body}`;
-    
-    // Open email client
-    window.location.href = mailtoLink;
+    setIsSubmittingCourse(true);
 
-    toast({
-      title: "Enquiry Received!",
-      description: "Our team will respond to your course enquiry soon.",
-    });
+    try {
+      await sendCourseEmail({
+        name: courseForm.name,
+        email: courseForm.email,
+        course: courseForm.course,
+        message: courseForm.message,
+      });
 
-    setCourseForm({ name: "", email: "", course: "", message: "" });
+      toast({
+        title: "Enquiry Received!",
+        description: "Our team will respond to your course enquiry soon.",
+      });
+
+      setCourseForm({ name: "", email: "", course: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error sending your enquiry. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmittingCourse(false);
+    }
   };
 
   return (
@@ -198,8 +214,12 @@ const Contact = () => {
                         />
                       </div>
 
-                      <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                        Request a Call
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                        disabled={isSubmittingProject}
+                      >
+                        {isSubmittingProject ? "Sending..." : "Request a Call"}
                       </Button>
                     </form>
                   </CardContent>
@@ -269,8 +289,12 @@ const Contact = () => {
                         />
                       </div>
 
-                      <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                        Submit Course Enquiry
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                        disabled={isSubmittingCourse}
+                      >
+                        {isSubmittingCourse ? "Sending..." : "Submit Course Enquiry"}
                       </Button>
                     </form>
                   </CardContent>
