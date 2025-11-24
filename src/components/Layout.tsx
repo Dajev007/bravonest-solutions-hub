@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Linkedin, Facebook, Youtube, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollBackground } from "@/components/ScrollBackground";
 
@@ -115,6 +115,36 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               <p className="text-sm text-white">
                 Engineering excellence meets practical education. Building software, PCB designs, and future engineers.
               </p>
+              {/* Social Media Links */}
+              <div className="flex items-center gap-4 pt-2">
+                <a
+                  href="https://lk.linkedin.com/company/bravonest"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-blue-400 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-6 w-6" />
+                </a>
+                <a
+                  href="https://www.facebook.com/share/17bDNK8fzo/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-blue-400 transition-colors"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="h-6 w-6" />
+                </a>
+                <a
+                  href="https://youtube.com/@bravonest?si=eQjl_BZg2xTf11OT"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-red-400 transition-colors"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="h-6 w-6" />
+                </a>
+              </div>
             </div>
 
             <div>
@@ -156,18 +186,28 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
             <div>
               <h3 className="font-semibold mb-4 text-white">Contact</h3>
-              <ul className="space-y-2 text-sm text-white">
+              <ul className="space-y-3 text-sm text-white">
                 <li>
-                  <a href="mailto:support@bravonest.lk" className="hover:text-primary transition-colors">
-                    support@bravonest.lk
+                  <a 
+                    href="https://wa.me/947275123473" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 hover:text-green-400 transition-colors"
+                  >
+                    <MessageCircle className="h-5 w-5 flex-shrink-0" />
+                    <span>+947275123473</span>
                   </a>
                 </li>
                 <li>
-                  <a href="tel:+947275123473" className="hover:text-primary transition-colors">
-                    +947275123473
+                  <a 
+                    href="mailto:support@bravonest.lk" 
+                    className="flex items-center gap-2 hover:text-primary transition-colors"
+                  >
+                    <Mail className="h-5 w-5 flex-shrink-0" />
+                    <span>support@bravonest.lk</span>
                   </a>
                 </li>
-                <li>Palaly road, kondavil east, Jaffna, Sri Lanka</li>
+                <li className="pt-1">Palaly road, kondavil east, Jaffna, Sri Lanka</li>
               </ul>
             </div>
           </div>

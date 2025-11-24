@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { BookOpen, Target, Users, FileText, MessageCircle, Youtube, ExternalLink } from "lucide-react";
+import { BookOpen, Target, Users, FileText, MessageCircle, Youtube, ExternalLink, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sendCourseEmail } from "@/lib/email-service";
 
@@ -150,9 +150,19 @@ const Learn = () => {
               Build practical skills in electronics, programming, and PCB design from industry professionals.
             </p>
             <div className="mt-6">
-              <CTAButton variant="course" to="/learn#register">
+              <Button
+                size="lg"
+                onClick={() => {
+                  const element = document.getElementById("register");
+                  if (element) {
+                    element.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }
+                }}
+                className="bg-accent hover:bg-accent/90 text-accent-foreground group transition-all duration-300 hover:scale-105 shadow-md hover:shadow-xl"
+              >
                 Register for a Course
-              </CTAButton>
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
             </div>
           </div>
         </div>
