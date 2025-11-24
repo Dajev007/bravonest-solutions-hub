@@ -15,7 +15,7 @@ const About = () => {
       name: "Mr.R. Abinayan",
       role: "Director",
       desc: "Expert in software development and data science",
-      image: "https://i.pravatar.cc/300?img=47",
+      image: "/team/abinayan.jpeg",
     },
     {
       name: "Mr. Jude Sajith",
