@@ -1,20 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { CTAButton } from "@/components/CTAButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { BookOpen, Target, Users, FileText, CheckCircle } from "lucide-react";
+import { BookOpen, Target, Users, FileText, MessageCircle, Youtube, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sendCourseEmail } from "@/lib/email-service";
 
 const Learn = () => {
   const { toast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,33 +24,73 @@ const Learn = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const hasScrolledRef = useRef(false);
 
-  const courses = [
-    {
-      title: "Foundations of Electronics & Circuits",
-      level: "Beginner",
-      duration: "4-6 weeks",
-      points: ["Basic circuit theory and components", "Hands-on breadboard projects", "Multimeter and oscilloscope fundamentals"],
-    },
-    {
-      title: "Programming Basics for Engineering",
-      level: "Beginner",
-      duration: "4-5 weeks",
-      points: ["C and Python fundamentals", "Writing clean, maintainable code", "Data structures for embedded systems"],
-    },
-    {
-      title: "Introduction to PCB Design",
-      level: "Intermediate",
-      duration: "6-8 weeks",
-      points: ["Schematic capture and component selection", "PCB layout best practices", "Manufacturing considerations"],
-    },
-    {
-      title: "Embedded Systems Starter",
-      level: "Intermediate",
-      duration: "6-8 weeks",
-      points: ["Microcontroller basics (Arduino, STM32)", "Sensor integration and data acquisition", "Communication protocols (I2C, SPI, UART)"],
-    },
+  // Featured courses at the top (2 columns)
+  const featuredCourses = [
+    { image: "free.png", name: "Free Class" },
+    { image: "pre_Engineering.png", name: "Pre-Engineering" },
   ];
+
+  // Other courses (3 columns)
+  const otherCourses = [
+    { image: "Autocad.png", name: "AutoCAD" },
+    { image: "cpp.png", name: "C++" },
+    { image: "embedded.png", name: "Embedded Systems" },
+    { image: "flutter.png", name: "Flutter" },
+    { image: "java.png", name: "Java" },
+    { image: "mern.png", name: "MERN Stack" },
+    { image: "pcb.png", name: "PCB Design" },
+    { image: "python.png", name: "Python" },
+    { image: "SolidWorks.png", name: "SolidWorks" },
+  ];
+
+  // All courses list for registration dropdown
+  const allCourses = [
+    ...featuredCourses.map(course => course.name),
+    ...otherCourses.map(course => course.name),
+  ].sort();
+
+  // Handle course click - scroll to form and set course
+  const handleCourseClick = (courseName: string) => {
+    setFormData(prev => ({ ...prev, course: courseName }));
+    setSearchParams({ course: encodeURIComponent(courseName) });
+    hasScrolledRef.current = true;
+    
+    // Scroll to registration form
+    setTimeout(() => {
+      const element = document.getElementById("register");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
+  };
+
+  // Check URL params on mount - set course and scroll only once on initial load
+  useEffect(() => {
+    // Only run this on initial mount
+    if (hasScrolledRef.current) return;
+    
+    const courseParam = searchParams.get("course");
+    if (courseParam) {
+      const decodedCourse = decodeURIComponent(courseParam);
+      if (allCourses.includes(decodedCourse)) {
+        setFormData(prev => ({ ...prev, course: decodedCourse }));
+        hasScrolledRef.current = true;
+        
+        // Scroll to form after a short delay to ensure page is rendered
+        const timeoutId = setTimeout(() => {
+          const element = document.getElementById("register");
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 500);
+        
+        return () => clearTimeout(timeoutId);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,45 +158,60 @@ const Learn = () => {
         </div>
       </section>
 
-      {/* Course Catalogue */}
+      {/* Featured Courses Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <SectionHeader
-            title="Course Catalogue"
+            title="Featured Courses"
             centered
           />
           
-          <div className="grid sm:grid-cols-2 gap-8 mt-12 max-w-5xl mx-auto">
-            {courses.map((course, idx) => (
-              <Card key={idx} className="hover-lift border-border/50">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant={course.level === "Beginner" ? "default" : "secondary"}>
-                      {course.level}
-                    </Badge>
-                    <span className="text-sm text-muted-foreground">{course.duration}</span>
-                  </div>
-                  <CardTitle className="text-xl">{course.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="space-y-2">
-                    {course.points.map((point, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm">
-                        <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button variant="outline" className="w-full">View Details</Button>
-                </CardContent>
-              </Card>
+          <div className="grid md:grid-cols-2 gap-8 mt-12 max-w-5xl mx-auto">
+            {featuredCourses.map((course, idx) => (
+              <div
+                key={idx}
+                onClick={() => handleCourseClick(course.name)}
+                className="group relative overflow-hidden rounded-lg border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg cursor-pointer"
+              >
+                <img
+                  src={`/course_ad/${course.image}`}
+                  alt={course.name}
+                  className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* All Courses Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <SectionHeader
+            title="All Courses"
+            centered
+          />
+          
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-12 max-w-6xl mx-auto">
+            {otherCourses.map((course, idx) => (
+              <div
+                key={idx}
+                onClick={() => handleCourseClick(course.name)}
+                className="group relative overflow-hidden rounded-lg border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg cursor-pointer"
+              >
+                <img
+                  src={`/course_ad/${course.image}`}
+                  alt={course.name}
+                  className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Learning Experience */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Learning Experience"
@@ -181,6 +237,66 @@ const Learn = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Join Community Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <SectionHeader
+            title="Join Our Community"
+            centered
+          />
+          
+          <div className="grid md:grid-cols-2 gap-8 mt-12 max-w-4xl mx-auto">
+            {/* WhatsApp Group Card */}
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
+              <CardHeader>
+                <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-4">
+                  <MessageCircle className="h-8 w-8 text-green-500" />
+                </div>
+                <CardTitle className="text-2xl text-center">Join Free Class</CardTitle>
+                <CardDescription className="text-center">
+                  Join our WhatsApp group to get access to free classes and connect with other learners
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <Button
+                  onClick={() => window.open("https://chat.whatsapp.com/FCVlWcgWvywKizluNWzmzB", "_blank", "noopener,noreferrer")}
+                  className="w-full bg-green-500 hover:bg-green-600 text-white relative z-10 cursor-pointer"
+                  variant="default"
+                >
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  Join WhatsApp Group
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* YouTube Channel Card */}
+            <Card className="border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
+              <CardHeader>
+                <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4">
+                  <Youtube className="h-8 w-8 text-red-500" />
+                </div>
+                <CardTitle className="text-2xl text-center">Subscribe to Our Channel</CardTitle>
+                <CardDescription className="text-center">
+                  Stay updated with our latest tutorials, course content, and educational videos
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <Button
+                  onClick={() => window.open("https://youtube.com/@bravonest?si=eQjl_BZg2xTf11OT", "_blank", "noopener,noreferrer")}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white relative z-10 cursor-pointer"
+                  variant="default"
+                >
+                  <Youtube className="mr-2 h-4 w-4" />
+                  Subscribe on YouTube
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -278,9 +394,9 @@ const Learn = () => {
                         <SelectValue placeholder="Select a course" />
                       </SelectTrigger>
                       <SelectContent>
-                        {courses.map((course, idx) => (
-                          <SelectItem key={idx} value={course.title}>
-                            {course.title}
+                        {allCourses.map((course, idx) => (
+                          <SelectItem key={idx} value={course}>
+                            {course}
                           </SelectItem>
                         ))}
                       </SelectContent>
