@@ -27,7 +27,7 @@ const About = () => {
       name: "Mr.T. Parathan",
       role: "CTO",
       desc: "Expert in full stack development and project management",
-      image: "/team/jude.jpg",
+      image: "/team/parathan.png",
     },
     {
       name: "Mr.V.Sivaharan",
