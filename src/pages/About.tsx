@@ -24,9 +24,9 @@ const About = () => {
       image: "public/team/jude.jpg",
     },
     {
-      name: "Priya Sharma",
-      role: "Embedded Systems Engineer",
-      desc: "Specializes in IoT and firmware development",
+      name: "Parathan",
+      role: "CTO",
+      desc: "Expert in full stack development and project management",
       image: "https://i.pravatar.cc/300?img=56",
     },
     {
