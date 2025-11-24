@@ -24,10 +24,10 @@ const About = () => {
       image: "public/team/jude.jpg",
     },
     {
-      name: "Parathan",
+      name: "Mr.T. Parathan",
       role: "CTO",
       desc: "Expert in full stack development and project management",
-      image: "https://i.pravatar.cc/300?img=56",
+      image: "public/team/jude.jpg",
     },
     {
       name: "Mr.V.Sivaharan",
