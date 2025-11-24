@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import RouteScroll from "@/components/RouteScroll";
+import MobileDrawer from "@/components/MobileDrawer";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -18,6 +20,16 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const isActive = (path: string) => {
     if (path === "/") return location.pathname === "/";
     return location.pathname.startsWith(path);
+  };
+
+  const scrollToTop = () => {
+    // Always scroll to top smoothly
+    try {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (e) {
+      // fallback
+      window.scrollTo(0, 0);
+    }
   };
 
   return (
@@ -51,6 +63,14 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                 className={`text-sm font-medium transition-colors hover:text-primary ${
                   isActive(link.to) ? "text-primary" : "text-foreground/80"
                 }`}
+                onClick={(e) => {
+                  // if already on the same page, just scroll to header instead of navigating
+                  if (isActive(link.to)) {
+                    e.preventDefault();
+                    scrollToTop();
+                    setMobileMenuOpen(false);
+                  }
+                }}
               >
                 {link.label}
               </Link>
@@ -63,37 +83,30 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {mobileMenuOpen ? <X className="h-6 w-6 icon-interactive" /> : <Menu className="h-6 w-6 icon-interactive" />}
           </button>
         </nav>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border">
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    isActive(link.to) ? "text-primary" : "text-foreground/80"
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Mobile Drawer */}
+        <MobileDrawer
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+          links={navLinks}
+          onNavigate={(to) => {
+            // if navigating to the same page, scroll to top
+            if (isActive(to)) {
+              scrollToTop();
+            }
+          }}
+        />
       </header>
 
       {/* Main Content */}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        {/* Smooth route scrolling -> scroll to header of new page */}
+        <RouteScroll />
+        {children}
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-border bg-muted/30">
@@ -101,7 +114,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center gap-2 font-bold text-lg">
-                <Code2 className="h-5 w-5 text-primary" />
+                <Code2 className="h-5 w-5 text-primary icon-interactive" />
                 <span>Bravonest</span>
               </div>
               <p className="text-sm text-muted-foreground">

@@ -1,3 +1,13 @@
+/*
+  Page: Contact
+  Purpose: Provide contact channels and two enquiry forms: Project Enquiry (book a call)
+  and Course Enquiry. Includes contact cards with email, phone, and location.
+
+  Notes:
+  - Uses local component state for form fields and `useToast` for feedback messages.
+  - Form submission handlers perform simple presence checks and show toasts.
+*/
+
 import { useState } from "react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -70,13 +80,13 @@ const Contact = () => {
   return (
     <div className="w-full">
       {/* Hero */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <section className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 page-hero">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6 fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight hero-title" style={{ animationDelay: '80ms' }}>
               Let's Build or Learn <span className="text-gradient">Together</span>
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground hero-subtitle" style={{ animationDelay: '180ms' }}>
               Share your project needs or training goals, and we'll help you achieve them.
             </p>
           </div>
@@ -261,7 +271,7 @@ const Contact = () => {
             <Card className="border-border/50 text-center">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Mail className="h-6 w-6 text-primary" />
+                  <Mail className="h-6 w-6 text-primary icon-interactive" />
                 </div>
                 <CardTitle className="text-lg">Email</CardTitle>
               </CardHeader>
@@ -274,7 +284,7 @@ const Contact = () => {
             <Card className="border-border/50 text-center">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mx-auto mb-4">
-                  <Phone className="h-6 w-6 text-secondary" />
+                  <Phone className="h-6 w-6 text-secondary icon-interactive" />
                 </div>
                 <CardTitle className="text-lg">Phone</CardTitle>
               </CardHeader>
@@ -287,7 +297,7 @@ const Contact = () => {
             <Card className="border-border/50 text-center">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="h-6 w-6 text-accent" />
+                  <MapPin className="h-6 w-6 text-accent icon-interactive" />
                 </div>
                 <CardTitle className="text-lg">Location</CardTitle>
               </CardHeader>

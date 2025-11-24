@@ -1,37 +1,27 @@
+/*
+  Page: Home
+  Purpose: Main landing page that introduces Bravonest's services, learning offerings,
+  and core differentiators. Contains the hero, feature cards, highlighted solutions,
+  learning CTA, and final call-to-action sections.
+
+  Key components used:
+  - `Hero` for the typed headline and main CTAs
+  - `FeatureCard` for service highlights
+  - `SectionHeader` for section titles/subtitles
+  - `CTAButton` for primary actions (book/register)
+*/
+
 import { CTAButton } from "@/components/CTAButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FeatureCard } from "@/components/FeatureCard";
+import Hero from "@/components/Hero";
 import { Code2, Cpu, GraduationCap, Lightbulb, Users, Zap, Target, Shield } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Home = () => {
   return (
     <div className="w-full">
-      {/* Hero Section */}
-      <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 gradient-hero opacity-10"></div>
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNnoiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLW9wYWNpdHk9Ii4wNSIvPjwvZz48L3N2Zz4=')] opacity-30"></div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center space-y-8 fade-in">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-              Where Ideas Become{" "}
-              <span className="text-gradient">Intelligent Solutions</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              Expert software development, PCB design, and pre-engineering courses that bridge innovation with education.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <CTAButton variant="project" to="/contact#project-call">
-                Book a Project Call
-              </CTAButton>
-              <CTAButton variant="course" to="/learn#register">
-                Register for a Course
-              </CTAButton>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* Three Pillars */}
       <section className="py-20 bg-muted/30">
@@ -98,7 +88,7 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto">
-              <GraduationCap className="h-8 w-8 text-accent" />
+              <GraduationCap className="h-8 w-8 text-accent icon-interactive" />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold">Build Your Engineering Foundation</h2>
             <p className="text-lg text-muted-foreground">

@@ -1,3 +1,15 @@
+/*
+  Page: Learn
+  Purpose: Course catalogue, FAQ, and registration form for Bravonest's pre-engineering
+  courses. Presents course cards, learning experience highlights, and a registration
+  form that validates required fields before showing confirmation via toast.
+
+  Key UI patterns:
+  - `Card` components for course display
+  - `Accordion` for FAQs
+  - Simple local state form handling with `useToast` feedback
+*/
+
 import { useState } from "react";
 import { CTAButton } from "@/components/CTAButton";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -71,13 +83,13 @@ const Learn = () => {
   return (
     <div className="w-full">
       {/* Hero */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <section className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 page-hero">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6 fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight hero-title" style={{ animationDelay: '80ms' }}>
               Pre-Engineering Courses with <span className="text-gradient">Real-World Focus</span>
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground hero-subtitle" style={{ animationDelay: '180ms' }}>
               Build practical skills in electronics, programming, and PCB design from industry professionals.
             </p>
             <CTAButton variant="course" to="/learn#register" className="mt-6">
@@ -112,7 +124,7 @@ const Learn = () => {
                   <ul className="space-y-2">
                     {course.points.map((point, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm">
-                        <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0 icon-interactive" />
                         <span>{point}</span>
                       </li>
                     ))}
@@ -144,7 +156,7 @@ const Learn = () => {
               <Card key={idx} className="border-border/50 text-center">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                    <feature.icon className="h-6 w-6 text-accent" />
+                    <feature.icon className="h-6 w-6 text-accent icon-interactive" />
                   </div>
                   <CardTitle className="text-lg">{feature.title}</CardTitle>
                 </CardHeader>

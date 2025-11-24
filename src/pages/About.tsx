@@ -1,3 +1,16 @@
+/*
+  Page: About
+  Purpose: Describe the company's story, mission, approach, values, and team. This
+  page gives context about Bravonest's background, guiding principles, and people.
+
+  Key sections:
+  - Hero (brand introduction)
+  - Our Story (narrative)
+  - Mission & Vision (cards)
+  - Approach & Values (process and principles)
+  - Team (cards for each team member)
+*/
+
 import { CTAButton } from "@/components/CTAButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,13 +29,13 @@ const About = () => {
   return (
     <div className="w-full">
       {/* Hero */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <section className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 page-hero">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6 fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight hero-title" style={{ animationDelay: '80ms' }}>
               About <span className="text-gradient">Bravonest</span>
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground hero-subtitle" style={{ animationDelay: '180ms' }}>
               We bridge the gap between real-world engineering projects and practical education.
             </p>
           </div>
@@ -60,7 +73,7 @@ const About = () => {
             <Card className="border-border/50">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  <Target className="h-6 w-6 text-primary" />
+                  <Target className="h-6 w-6 text-primary icon-interactive" />
                 </div>
                 <CardTitle className="text-2xl">Our Mission</CardTitle>
               </CardHeader>
@@ -74,7 +87,7 @@ const About = () => {
             <Card className="border-border/50">
               <CardHeader>
                 <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-4">
-                  <Eye className="h-6 w-6 text-secondary" />
+                  <Eye className="h-6 w-6 text-secondary icon-interactive" />
                 </div>
                 <CardTitle className="text-2xl">Our Vision</CardTitle>
               </CardHeader>
@@ -107,7 +120,7 @@ const About = () => {
               <Card key={idx} className="hover-lift border-border/50 text-center">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                    <step.icon className="h-6 w-6 text-accent" />
+                    <step.icon className="h-6 w-6 text-accent icon-interactive" />
                   </div>
                   <CardTitle className="text-lg">{step.title}</CardTitle>
                 </CardHeader>
@@ -139,7 +152,7 @@ const About = () => {
               <Card key={idx} className="border-border/50 text-center">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <value.icon className="h-6 w-6 text-primary" />
+                    <value.icon className="h-6 w-6 text-primary icon-interactive" />
                   </div>
                   <CardTitle className="text-lg">{value.title}</CardTitle>
                 </CardHeader>

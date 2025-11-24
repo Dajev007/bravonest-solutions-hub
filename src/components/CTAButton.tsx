@@ -27,7 +27,7 @@ export const CTAButton = ({ variant = "project", to, children, className = "" }:
     >
       <Link to={to}>
         {children}
-        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 icon-interactive" />
       </Link>
     </Button>
   );

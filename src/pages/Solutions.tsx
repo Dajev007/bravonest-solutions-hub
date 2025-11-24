@@ -1,3 +1,16 @@
+/*
+  Page: Solutions
+  Purpose: Detailed breakdown of software and hardware (PCB/embedded) services,
+  example use cases, and process overview. Intended for visitors evaluating
+  Bravonest for project work or partnerships.
+
+  Structure:
+  - Hero and intro
+  - Software Solutions (cards)
+  - PCB Design & Embedded (cards + process timeline)
+  - Use cases and final CTA
+*/
+
 import { CTAButton } from "@/components/CTAButton";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -67,13 +80,13 @@ const Solutions = () => {
   return (
     <div className="w-full">
       {/* Hero */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <section className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 page-hero">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-6 fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight hero-title" style={{ animationDelay: '80ms' }}>
               Solutions That <span className="text-gradient">Scale</span>
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground hero-subtitle" style={{ animationDelay: '180ms' }}>
               From software to silicon—we build integrated solutions for the modern world.
             </p>
           </div>
@@ -105,7 +118,7 @@ const Solutions = () => {
               <Card key={idx} className="hover-lift border-border/50">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                    <solution.icon className="h-6 w-6 text-primary" />
+                    <solution.icon className="h-6 w-6 text-primary icon-interactive" />
                   </div>
                   <CardTitle className="text-lg">{solution.title}</CardTitle>
                   <Badge variant="secondary" className="w-fit">{solution.tag}</Badge>
@@ -140,7 +153,7 @@ const Solutions = () => {
               <Card key={idx} className="hover-lift border-border/50">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center mb-4">
-                    <solution.icon className="h-6 w-6 text-secondary" />
+                    <solution.icon className="h-6 w-6 text-secondary icon-interactive" />
                   </div>
                   <CardTitle className="text-lg">{solution.title}</CardTitle>
                 </CardHeader>
@@ -153,20 +166,32 @@ const Solutions = () => {
 
           {/* Process Timeline */}
           <div className="mt-16 max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              {["Idea", "Schematic", "Layout", "Prototype", "Testing"].map((step, idx) => (
-                <div key={idx} className="flex items-center gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-tech text-white flex items-center justify-center font-bold">
-                      {idx + 1}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              {["Idea", "Schematic", "Layout", "Prototype", "Testing"].map((step, idx) => {
+                const delay = `${idx * 220}ms`;
+                return (
+                  <div key={idx} className="flex items-center md:items-start md:flex-row gap-4 w-full">
+                    <div className="ice-step flex items-center gap-4 z-10">
+                      <div className="ice-circle icon-interactive" style={{ animationDelay: delay }}>
+                        <span className="ice-number">{idx + 1}</span>
+                        <div className="ice-glint" style={{ animationDelay: delay }} />
+                      </div>
+                      <div className="ice-content">
+                        <div className="ice-title">{step}</div>
+                        <div className="ice-sub">Step {idx + 1}</div>
+                      </div>
                     </div>
-                    <p className="mt-2 text-sm font-medium">{step}</p>
+
+                    {idx < 4 && (
+                      <div className="hidden md:flex flex-1 items-center mx-4">
+                        <div className="timeline-connector w-full relative" aria-hidden>
+                          <span className="connector-arrow" style={{ animationDelay: delay }} />
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  {idx < 4 && (
-                    <div className="hidden md:block w-16 h-0.5 bg-border"></div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -186,7 +211,7 @@ const Solutions = () => {
               <Card key={idx} className="hover-lift border-border/50">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-                    <useCase.icon className="h-6 w-6 text-accent" />
+                    <useCase.icon className="h-6 w-6 text-accent icon-interactive" />
                   </div>
                   <CardTitle className="text-lg">{useCase.title}</CardTitle>
                 </CardHeader>

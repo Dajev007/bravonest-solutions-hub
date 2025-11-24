@@ -1,3 +1,5 @@
+/* stylelint-disable at-rule-no-unknown */
+/* postcss directives: Tailwind will process these at build time */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,16 +19,20 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 210 100% 40%;
+     /* New brand palette (from hex inputs):
+       #34D3D4 -> ~180 65% 52%
+       #141E34 -> ~221 45% 14%
+       #080B14 -> ~225 43% 5.5% */
+     --primary: 180 65% 52%; /* teal: #34D3D4 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 85% 50%;
+    --secondary: 221 45% 14%; /* dark blue: #141E34 */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 20% 96%;
     --muted-foreground: 215 15% 45%;
 
-    --accent: 30 95% 55%;
+    --accent: 225 43% 5.5%; /* near-black blue: #080B14 */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -38,10 +44,10 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
-    --tech-gradient-start: 210 100% 45%;
-    --tech-gradient-end: 200 90% 50%;
-    --hero-gradient-start: 215 100% 50%;
-    --hero-gradient-end: 200 90% 55%;
+    --tech-gradient-start: 212 95% 42%;
+    --tech-gradient-end: 204 88% 40%;
+    --hero-gradient-start: 215 100% 42%;
+    --hero-gradient-end: 215 90% 30%;
     
     --shadow-sm: 0 1px 2px 0 hsl(215 25% 15% / 0.05);
     --shadow-md: 0 4px 6px -1px hsl(215 25% 15% / 0.1);
@@ -59,16 +65,17 @@ All colors MUST be HSL.
     --popover: 215 28% 12%;
     --popover-foreground: 210 20% 95%;
 
-    --primary: 210 100% 55%;
+    /* Dark theme variants: keep the same hue family but increase lightness where appropriate */
+    --primary: 180 65% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 85% 60%;
+    --secondary: 221 45% 20%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 215 25% 18%;
     --muted-foreground: 210 15% 60%;
 
-    --accent: 30 95% 60%;
+    --accent: 225 43% 8%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 50%;
@@ -78,10 +85,10 @@ All colors MUST be HSL.
     --input: 215 20% 20%;
     --ring: 210 100% 55%;
 
-    --tech-gradient-start: 210 100% 50%;
-    --tech-gradient-end: 200 90% 55%;
-    --hero-gradient-start: 215 100% 55%;
-    --hero-gradient-end: 200 90% 60%;
+    --tech-gradient-start: 214 96% 50%;
+    --tech-gradient-end: 206 90% 48%;
+    --hero-gradient-start: 215 100% 48%;
+    --hero-gradient-end: 215 90% 36%;
     
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
     --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4);
@@ -109,6 +116,169 @@ All colors MUST be HSL.
     background: linear-gradient(135deg, hsl(var(--tech-gradient-start)), hsl(var(--tech-gradient-end)));
   }
 
+  /* 3D transform utilities
+     Usage example (JSX):
+     <div className="perspective-800">
+       <div className="card-3d" style={{"--rx":"6deg","--ry":"-6deg","--tz":"10px","--s":"1.03"}}>
+         <!-- content -->
+       </div>
+     </div>
+  */
+
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+
+  .perspective-500 { perspective: 500px; }
+  .perspective-800 { perspective: 800px; }
+  .perspective-1200 { perspective: 1200px; }
+
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 360ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms;
+    will-change: transform;
+    /* sensible defaults, overridden with CSS variables */
+    --rx: 6deg;
+    --ry: -6deg;
+    --tz: 8px;
+    --s: 1.02;
+  }
+
+  .card-3d__inner {
+    transform-origin: center;
+    backface-visibility: hidden;
+  }
+
+  .card-3d:hover {
+    transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz)) scale(var(--s));
+    box-shadow: 0 20px 40px rgba(2,6,23,0.12);
+  }
+
+  /* Ice-themed step marker for process timelines */
+  .ice-step { display:flex; align-items:center; gap:1rem; }
+
+  .ice-circle {
+    width:3rem; height:3rem; border-radius:999px; display:inline-grid; place-items:center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 6px 18px rgba(10,18,30,0.12), inset 0 1px 0 rgba(255,255,255,0.04);
+    color: hsl(var(--primary)); font-weight:700; font-size:0.95rem;
+    transform-style:preserve-3d; backface-visibility:hidden; will-change:transform, opacity;
+    transition: transform 420ms cubic-bezier(.2,.9,.2,1), box-shadow 420ms;
+    position:relative; overflow:hidden;
+  }
+
+  .ice-circle::after {
+    content: ""; position:absolute; inset:0; pointer-events:none;
+    background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.06) 100%);
+    transform: translateX(-120%); mix-blend-mode:overlay; opacity:0.85;
+    transition: transform 1200ms ease-in-out;
+  }
+
+  .ice-step:hover .ice-circle, .ice-circle.icon-interactive:hover {
+    transform: translateY(-6px) scale(1.06) rotateX(6deg);
+    box-shadow: 0 26px 50px rgba(10,18,30,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  /* Glint animation sweep across the circle */
+  @keyframes iceGlint {
+    0% { transform: translateX(-120%); opacity: 0 }
+    40% { transform: translateX(-20%); opacity: 0.85 }
+    100% { transform: translateX(120%); opacity: 0 }
+  }
+
+  .ice-glint {
+    position:absolute; left:-40%; top:-10%; width:120%; height:120%; background: linear-gradient(90deg, rgba(255,255,255,0.0), rgba(255,255,255,0.7), rgba(255,255,255,0.0));
+    transform: translateX(-120%); pointer-events:none; mix-blend-mode:screen; opacity:0;
+    animation: iceGlint 1.4s ease-in-out forwards;
+  }
+
+  /* make the step number highly visible */
+  .ice-number {
+    font-weight:800;
+    color: hsl(var(--primary-foreground));
+    font-size:1rem;
+    text-shadow: 0 2px 6px rgba(10,18,30,0.28);
+  }
+
+  /* Floating subtle movement for icy feel */
+  @keyframes iceFloat { 0% { transform: translateY(0) } 50% { transform: translateY(-4px) } 100% { transform: translateY(0) } }
+
+  .ice-step .ice-content { display:flex; flex-direction:column; }
+  .ice-step .ice-title { font-weight:600; }
+  .ice-step .ice-sub { font-size:0.875rem; color:var(--muted-foreground); }
+
+  /* Horizontal connector arrow animation (desktop) */
+  .timeline-connector {
+    height: 6px;
+    background: linear-gradient(90deg, rgba(52,211,212,0.06), rgba(59,130,246,0.08));
+    border-radius: 999px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline-connector .connector-arrow {
+    position: absolute;
+    top: 50%; left: -6%; transform: translateY(-50%);
+    width: 20px; height: 12px; display: block;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+    clip-path: polygon(0 50%, 60% 0, 100% 50%, 60% 100%);
+    box-shadow: 0 6px 14px rgba(16,24,40,0.12);
+    animation: connectorMove 1.8s linear infinite;
+    animation-delay: 0ms;
+  }
+
+  @keyframes connectorMove {
+    0% { left: -8%; opacity: 0 }
+    8% { opacity: 1 }
+    50% { left: 50%; opacity: 1 }
+    92% { opacity: 1 }
+    100% { left: 108%; opacity: 0 }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-connector .connector-arrow { animation: none; opacity: 1; left: 50%; transform: translateY(-50%) translateX(-50%); }
+  }
+
+  /* utility to trigger glint with stagger via inline style animationDelay */
+  .ice-circle.play-glint .ice-glint { animation-play-state:running; }
+
+  /* Looping glint variant: useful for subtle periodic sparkle */
+  .ice-circle.glint-loop .ice-glint {
+    animation-name: iceGlint;
+    animation-duration: 2.2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    animation-delay: var(--glint-delay, 0ms);
+  }
+
+  /* pulsing halo around the circle */
+  .ice-circle::before {
+    content: ""; position:absolute; inset: -8%; border-radius:999px; pointer-events:none;
+    background: radial-gradient(closest-side, rgba(52,211,212,0.18), rgba(52,211,212,0.02));
+    opacity: 0.0; transform: scale(0.92); transition: opacity 420ms, transform 420ms;
+  }
+
+  .ice-circle.pulse::before { opacity:0.95; transform: scale(1.06); }
+
+  /* entrance animation for ice-step (stagger via inline --delay) */
+  @keyframes iceEntrance {
+    0% { opacity:0; transform: translateY(8px) scale(0.995); }
+    60% { opacity:1; transform: translateY(-2px) scale(1.01); }
+    100% { opacity:1; transform: translateY(0) scale(1); }
+  }
+
+  .ice-step { opacity:0; transform: translateY(8px); animation: iceEntrance 640ms cubic-bezier(.2,.9,.2,1) forwards; animation-delay: var(--delay, 0ms); }
+
+  /* small floating motion for circles to keep them feeling alive */
+  .ice-circle.float { animation: iceFloat 6s ease-in-out infinite; }
+
+
+  /* helper to nudge an element forward in 3D stack */
+  .translate-z-4 { transform: translateZ(4px); }
+  .translate-z-8 { transform: translateZ(8px); }
+
+
   .gradient-hero {
     background: linear-gradient(135deg, hsl(var(--hero-gradient-start)) 0%, hsl(var(--hero-gradient-end)) 100%);
   }
@@ -129,7 +299,153 @@ All colors MUST be HSL.
   .slide-up {
     animation: slideUp 0.6s ease-out forwards;
   }
+
+  /* Page hero utilities: apply to hero sections for consistent animations */
+  .page-hero {
+    position: relative;
+    overflow: visible;
+  }
+
+  .hero-title {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: slideUp 640ms cubic-bezier(.2,.9,.2,1) forwards;
+  }
+
+  .hero-subtitle {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeIn 700ms cubic-bezier(.2,.9,.2,1) forwards;
+  }
+
+  .hero-cta {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+    transition: transform 320ms cubic-bezier(.2,.9,.2,1), opacity 320ms;
+  }
+
+
+  /* Typing caret used next to typed text */
+  .typing-caret {
+    display: inline-block;
+    width: 0.2rem;
+    height: 1.04em;
+    background-color: hsl(var(--accent));
+    margin-left: 0.3rem;
+    vertical-align: text-bottom;
+    animation: blink 1s steps(2, start) infinite;
+  }
+
+  /* CTA button gradient and hover glow */
+  .btn-gradient {
+    @apply rounded-full font-semibold text-white inline-flex items-center justify-center;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+    background-size: 200% 200%;
+    box-shadow: 0 6px 18px rgba(16,24,40,0.08);
+    transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
+  }
+
+  .btn-gradient--alt {
+    background: linear-gradient(90deg, hsl(var(--secondary)), hsl(var(--accent)));
+  }
+
+  .btn-gradient:hover {
+    transform: translateY(-3px) scale(1.02);
+    filter: saturate(1.05) drop-shadow(0 12px 24px rgba(59,130,246,0.12));
+    background-position: 100% 50%;
+  }
+
+  /* Animated subtle gradient motion */
+  .gradient-anim {
+    animation: gradientShift 6s ease infinite;
+  }
+
+  /* Icons interaction */
+  /* Icons interaction: subtle 3D lift/rotate on hover, but disabled inside hero (#page-header) */
+  .icon-interactive {
+    transition: transform 0.36s cubic-bezier(.2,.9,.2,1), color 0.24s;
+    transform-origin: center;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+
+  /* Hover effect (applies on direct hover or when parent group is hovered) */
+  .group:hover .icon-interactive,
+  .icon-interactive:hover {
+    transform: translateY(-6px) rotateX(8deg) rotateY(6deg) translateZ(6px) scale(1.03);
+    color: hsl(var(--primary));
+  }
+
+  /* Explicitly disable 3D movement inside the hero to preserve its layout/typography */
+  #page-header .icon-interactive,
+  #page-header .group:hover .icon-interactive,
+  #page-header .icon-interactive:hover {
+    transform: none !important;
+    color: inherit !important;
+  }
+  
+  /* Hero underline animation */
+  .hero-underline {
+    height: 3px;
+    width: 60px;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+    margin: 0.5rem auto 0;
+    border-radius: 999px;
+    transform-origin: left center;
+    animation: underlineGrow 900ms cubic-bezier(.2,.9,.2,1) forwards;
+  }
+
+  @keyframes underlineGrow {
+    from { transform: scaleX(0); opacity: 0.6 }
+    to { transform: scaleX(1); opacity: 1 }
+  }
+  /* Custom cursor was removed; native cursor remains */
+
+  /* Scrolling reel */
+  .reel-track { display: inline-block; }
+  .reel { --d: 20s; }
+  .reel .reel-track { animation: scrollReel var(--d) linear infinite; }
+
+  /* Button inner dot and ripple */
+  .dot { transform: translateX(0); }
+  button[data-cursor]:hover .dot { transform: translateX(14px); }
+
+  .ripple { transition: opacity 500ms, transform 500ms; }
+  button[data-cursor]:active .ripple { opacity: 0.25; transform: translate(-50%, -50%) scale(0); }
+
+/* Mobile drawer slide timing tweak */
+.mobile-drawer-enter {
+  transition: transform 320ms cubic-bezier(.2,.9,.3,1), opacity 320ms;
 }
+.mobile-drawer-exit {
+  transition: transform 260ms cubic-bezier(.2,.9,.3,1), opacity 260ms;
+}
+
+/* Drawer item entrance animation (slide + fade) */
+.animate-drawer-item {
+  animation: drawerItemIn 360ms cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+@keyframes drawerItemIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Drawer item transition (used for staggered enter/exit) */
+.drawer-item-transition {
+  transition-property: opacity, transform;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(.2,.9,.2,1);
+}
+
+.drawer-item { opacity: 0; transform: translateX(-8px); }
 
 @keyframes fadeIn {
   from {
@@ -150,3 +466,22 @@ All colors MUST be HSL.
     transform: translateY(0);
   }
 }
+
+@keyframes blink {
+  0% { opacity: 1 }
+  50% { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes scrollReel {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+}
+

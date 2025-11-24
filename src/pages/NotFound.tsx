@@ -1,3 +1,9 @@
+/*
+  Page: NotFound (404)
+  Purpose: Rendered when the user navigates to a non-existent route. Logs the
+  attempted pathname for diagnostics and provides a link back to the home page.
+*/
+
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
