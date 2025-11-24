@@ -21,19 +21,19 @@ const About = () => {
       name: "Mr. Jude Sajith",
       role: "Technical Advisor",
       desc: "Educator and engineer passionate about making tech accessible",
-      image: "public/team/jude.jpg",
+      image: "/team/jude.jpg",
     },
     {
       name: "Mr.T. Parathan",
       role: "CTO",
       desc: "Expert in full stack development and project management",
-      image: "public/team/jude.jpg",
+      image: "/team/jude.jpg",
     },
     {
       name: "Mr.V.Sivaharan",
       role: "Marketing Head",
-      desc: "M.Med.Stats (UoK) , B.Sc (Hons) Audiology , Dip .Psych & counselling",
-      image: "public/team/siva.jpg",
+      desc: "M.Med.Stats(UoK), B.Sc(Hons) Audiology, Dip.Psych & counselling",
+      image: "team/siva.jpg",
     },
     {
       name: "Mr.B. Dinuj",
