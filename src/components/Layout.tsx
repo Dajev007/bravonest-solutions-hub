@@ -189,7 +189,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               <ul className="space-y-3 text-sm text-white">
                 <li>
                   <a 
-                    href="https://wa.me/947275123473" 
+                    href="https://wa.me/94727512373" 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 hover:text-green-400 transition-colors"
