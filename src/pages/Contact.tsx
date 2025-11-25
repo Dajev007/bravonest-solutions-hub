@@ -336,8 +336,8 @@ const Contact = () => {
                 <CardTitle className="text-lg">Phone</CardTitle>
               </CardHeader>
               <CardContent>
-                <a href="tel:+947275123473" className="text-sm text-muted-foreground hover:text-secondary transition-colors">
-                  +947275123473
+                <a href="tel:+94727512373" className="text-sm text-muted-foreground hover:text-secondary transition-colors">
+                  +94727512373
                 </a>
               </CardContent>
             </Card>
