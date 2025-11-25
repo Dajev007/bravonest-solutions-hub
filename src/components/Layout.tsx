@@ -195,7 +195,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                     className="flex items-center gap-2 hover:text-green-400 transition-colors"
                   >
                     <MessageCircle className="h-5 w-5 flex-shrink-0" />
-                    <span>+947275123473</span>
+                    <span>+94727512373</span>
                   </a>
                 </li>
                 <li>
