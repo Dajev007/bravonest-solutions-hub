@@ -21,6 +21,7 @@ const Learn = () => {
     email: "",
     course: "",
     message: "",
+    phone: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -112,6 +113,7 @@ const Learn = () => {
         email: formData.email,
         course: formData.course,
         message: formData.message,
+        phone: formData.phone,
       });
 
       toast({
@@ -119,7 +121,7 @@ const Learn = () => {
         description: "We'll contact you with the next available batch details.",
       });
 
-      setFormData({ name: "", email: "", course: "", message: "" });
+      setFormData({ name: "", email: "", course: "", message: "", phone: "" });
     } catch (error) {
       toast({
         title: "Error",
@@ -394,6 +396,17 @@ const Learn = () => {
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="your.email@example.com"
                       required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone (optional)</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="e.g. +94 7XXXXXXXX"
                     />
                   </div>
 

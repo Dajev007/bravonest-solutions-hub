@@ -19,6 +19,7 @@ const Contact = () => {
     projectType: "",
     description: "",
     timeWindow: "",
+    phone: "",
   });
 
   const [courseForm, setCourseForm] = useState({
@@ -26,6 +27,7 @@ const Contact = () => {
     email: "",
     course: "",
     message: "",
+    phone: "",
   });
 
   const [isSubmittingProject, setIsSubmittingProject] = useState(false);
@@ -52,6 +54,7 @@ const Contact = () => {
         projectType: projectForm.projectType,
         description: projectForm.description,
         timeWindow: projectForm.timeWindow,
+        phone: projectForm.phone,
       });
 
       toast({
@@ -59,7 +62,7 @@ const Contact = () => {
         description: "We'll reach out within 24 hours to schedule your project call.",
       });
 
-      setProjectForm({ name: "", email: "", projectType: "", description: "", timeWindow: "" });
+      setProjectForm({ name: "", email: "", projectType: "", description: "", timeWindow: "", phone: "" });
     } catch (error) {
       toast({
         title: "Error",
@@ -91,6 +94,7 @@ const Contact = () => {
         email: courseForm.email,
         course: courseForm.course,
         message: courseForm.message,
+        phone: courseForm.phone,
       });
 
       toast({
@@ -98,7 +102,7 @@ const Contact = () => {
         description: "Our team will respond to your course enquiry soon.",
       });
 
-      setCourseForm({ name: "", email: "", course: "", message: "" });
+      setCourseForm({ name: "", email: "", course: "", message: "", phone: "" });
     } catch (error) {
       toast({
         title: "Error",
@@ -172,6 +176,17 @@ const Contact = () => {
                           onChange={(e) => setProjectForm({ ...projectForm, email: e.target.value })}
                           placeholder="your.email@example.com"
                           required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="project-phone">Phone (optional)</Label>
+                        <Input
+                          id="project-phone"
+                          type="tel"
+                          value={projectForm.phone}
+                          onChange={(e) => setProjectForm({ ...projectForm, phone: e.target.value })}
+                          placeholder="e.g. +94 7XXXXXXXX"
                         />
                       </div>
 
@@ -256,6 +271,17 @@ const Contact = () => {
                           onChange={(e) => setCourseForm({ ...courseForm, email: e.target.value })}
                           placeholder="your.email@example.com"
                           required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="course-phone">Phone (optional)</Label>
+                        <Input
+                          id="course-phone"
+                          type="tel"
+                          value={courseForm.phone}
+                          onChange={(e) => setCourseForm({ ...courseForm, phone: e.target.value })}
+                          placeholder="e.g. +94 7XXXXXXXX"
                         />
                       </div>
 

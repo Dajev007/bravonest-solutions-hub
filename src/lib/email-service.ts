@@ -8,6 +8,7 @@ interface ProjectFormData {
   projectType: string;
   description: string;
   timeWindow?: string;
+  phone?: string;
 }
 
 interface CourseFormData {
@@ -15,6 +16,7 @@ interface CourseFormData {
   email: string;
   course: string;
   message?: string;
+  phone?: string;
 }
 
 export const sendProjectEmail = async (data: ProjectFormData): Promise<boolean> => {
@@ -26,6 +28,7 @@ Name: ${data.name}
 Email: ${data.email}
 Project Type: ${data.projectType}
 Preferred Time Window: ${data.timeWindow || 'Not specified'}
+  Phone: ${data.phone || 'Not provided'}
 
 Description:
 ${data.description}
@@ -40,6 +43,7 @@ Reply directly to this email to respond to ${data.name} at ${data.email}
     formData.append('name', data.name);
     formData.append('subject', `Project Call Request - ${data.projectType}`);
     formData.append('message', emailBody);
+    formData.append('phone', data.phone || '');
     formData.append('_replyto', data.email);
     formData.append('_captcha', 'false');
     formData.append('_template', 'table');
@@ -78,6 +82,7 @@ New Course Enquiry
 Name: ${data.name}
 Email: ${data.email}
 Course of Interest: ${data.course}
+  Phone: ${data.phone || 'Not provided'}
 
 Message:
 ${data.message || 'No additional message provided'}
@@ -92,6 +97,7 @@ Reply directly to this email to respond to ${data.name} at ${data.email}
     formData.append('name', data.name);
     formData.append('subject', `Course Enquiry - ${data.course}`);
     formData.append('message', emailBody);
+    formData.append('phone', data.phone || '');
     formData.append('_replyto', data.email);
     formData.append('_captcha', 'false');
     formData.append('_template', 'table');
